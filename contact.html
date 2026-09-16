@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Mingjue Liu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap" rel="stylesheet">
+<style>
+  /* ============ tokens ============ */
+  :root{
+    --black:#0A0A0B;--black-2:#111113;--card:#131316;
+    --line:rgba(255,255,255,.12);--grey:#98989F;--grey-dim:#5B5B61;--silver-hi:#F4F4F6;
+    --chrome:linear-gradient(180deg,#B9BEC6 0%,#70747B 17%,#EDEFF3 44%,#FFFFFF 50%,#D7DBE1 56%,#575B63 80%,#A6ABB3 100%);
+    --display:"Clash Display","Helvetica Neue",Arial,sans-serif;
+    --body:"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC",Arial,sans-serif;
+    --mono:"Space Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--black);color:var(--silver-hi);font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:#3a3a40;color:#fff}
+  a{color:inherit;text-decoration:none}
+  @media (hover:hover) and (pointer:fine){ body,a,button{cursor:none} }
+
+  /* ============ chrome metallic type ============ */
+  .metal{
+    font-family:var(--display);font-weight:700;
+    background:var(--chrome);background-size:100% 240%;background-position:50% 12%;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,.55)) drop-shadow(0 1px 0 rgba(255,255,255,.25));
+  }
+  .sheen{animation:sheen 6.5s ease-in-out infinite}
+  @keyframes sheen{0%,100%{background-position:50% 10%}50%{background-position:50% 90%}}
+
+  /* ============ metallic cursor (DOM fallback; liquid-cursor.js upgrades it) ============ */
+  .cursor-dot,.cursor-ring{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%);will-change:transform}
+  .cursor-dot{width:7px;height:7px;background:radial-gradient(circle at 35% 30%,#fff 0%,#c9c9ce 45%,#77777d 100%);box-shadow:0 0 10px rgba(255,255,255,.35);transition:opacity .3s}
+  .cursor-ring{width:38px;height:38px;
+    background:conic-gradient(from var(--spin,0deg),#f5f5f7 0deg,#707076 70deg,#e3e3e6 140deg,#55555b 210deg,#fdfdfe 290deg,#f5f5f7 360deg);
+    -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 1.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 1.5px));
+    transition:width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1);animation:spinvar 3.2s linear infinite}
+  @property --spin{syntax:"<angle>";initial-value:0deg;inherits:false}
+  @keyframes spinvar{to{--spin:360deg}}
+  body.cur-link .cursor-ring{width:58px;height:58px}
+  body.cur-view .cursor-ring{width:58px;height:58px}
+  @media (hover:none),(pointer:coarse){ .cursor-dot,.cursor-ring{display:none} }
+
+  /* ============ nav ============ */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;
+    padding:18px 4vw;background:rgba(10,10,11,.7);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.07)}
+  nav .logo{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.12em}
+  nav .logo a{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.12em;text-transform:none;color:var(--silver-hi)}
+  nav .logo a::after{display:none}
+  nav ul{display:flex;gap:32px;list-style:none}
+  nav a{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);transition:color .3s;position:relative}
+  nav a:hover,nav a.here{color:var(--silver-hi)}
+  nav a::after{content:"";position:absolute;left:0;bottom:-5px;height:1px;width:100%;background:linear-gradient(90deg,#f0f0f2,#77777d);transform:scaleX(0);transform-origin:right;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+  nav a:hover::after,nav a.here::after{transform:scaleX(1);transform-origin:left}
+
+  /* ============ layout ============ */
+  .contact{min-height:100vh;padding:20vh 4vw 8vh;
+    display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,110px);align-items:start;
+    background:radial-gradient(1000px 560px at 15% 8%,rgba(255,255,255,.05),transparent 60%)}
+
+  /* left column */
+  .c-left .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);margin-bottom:3vh}
+  .c-left h1{font-family:var(--display);font-weight:700;font-size:clamp(46px,7vw,104px);text-transform:uppercase;line-height:.9;letter-spacing:-.02em;margin-bottom:3vh}
+  .c-left .intro{font-family:var(--body);max-width:440px;font-size:15px;line-height:1.75;color:var(--grey);margin-bottom:6vh}
+  .c-left .intro b{color:var(--silver-hi);font-weight:500}
+
+  .channels-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey-dim);margin-bottom:10px}
+  .socials{border-top:1px solid var(--line)}
+  .srow{display:flex;align-items:center;gap:16px;padding:18px 4px;border-bottom:1px solid var(--line);transition:padding .35s cubic-bezier(.2,.8,.2,1)}
+  .srow:hover{padding-left:14px}
+  .srow .ic{width:20px;height:20px;flex:none;color:var(--grey);transition:color .3s}
+  .srow:hover .ic{color:var(--silver-hi)}
+  .srow .nm{font-family:var(--display);font-weight:600;font-size:clamp(16px,1.7vw,21px);text-transform:uppercase;letter-spacing:-.01em}
+  .srow .hd{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--grey);transition:color .3s}
+  .srow .ar{margin-left:14px;color:var(--grey);transition:transform .35s cubic-bezier(.2,.8,.2,1),color .3s;font-size:14px}
+  .srow:hover .hd,.srow:hover .ar{color:var(--silver-hi)}
+  .srow:hover .ar{transform:translate(3px,-3px)}
+
+  /* right column: form card */
+  .c-right{position:sticky;top:16vh;background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:clamp(26px,3vw,46px);box-shadow:0 24px 70px rgba(0,0,0,.5)}
+  .c-right h2{font-family:var(--display);font-weight:600;font-size:clamp(20px,2vw,27px);text-transform:uppercase;letter-spacing:-.01em;margin-bottom:8px}
+  .c-right .sub{font-family:var(--body);font-size:13px;line-height:1.6;color:var(--grey);margin-bottom:28px}
+  .field{margin-bottom:20px}
+  .field label{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey);margin-bottom:9px}
+  .field label .req{color:#c98b6a}
+  .field input,.field textarea{width:100%;background:var(--black-2);color:var(--silver-hi);
+    border:1px solid var(--line);border-radius:8px;padding:14px 15px;font-family:var(--body);font-size:14.5px;
+    transition:border-color .3s,box-shadow .3s;resize:vertical}
+  .field input::placeholder,.field textarea::placeholder{color:var(--grey-dim)}
+  .field input:focus,.field textarea:focus{outline:none;border-color:rgba(255,255,255,.5);box-shadow:0 0 0 3px rgba(255,255,255,.06)}
+  .field textarea{min-height:130px;line-height:1.6}
+  .field.err input,.field.err textarea{border-color:#c0654f;box-shadow:0 0 0 3px rgba(192,101,79,.14)}
+  .field .msg{font-family:var(--body);font-size:11px;color:#d98a72;margin-top:7px;min-height:0;display:none}
+  .field.err .msg{display:block}
+  /* honeypot */
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+  .submit{width:100%;margin-top:6px;border:none;border-radius:8px;padding:16px 20px;cursor:none;
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:#0a0a0b;
+    background:linear-gradient(135deg,#f4f4f6,#c2c2c8 55%,#9a9aa0);
+    background-size:180% 100%;background-position:0 0;transition:background-position .5s,transform .2s,opacity .3s}
+  .submit:hover{background-position:100% 0}
+  .submit:active{transform:translateY(1px)}
+  .submit:disabled{opacity:.6}
+
+  .form-status{font-family:var(--body);margin-top:16px;font-size:13px;line-height:1.6;display:none}
+  .form-status.show{display:block}
+  .form-status.ok{color:#a7c8a1}
+  .form-status.bad{color:#d98a72}
+  .form-status a{color:var(--silver-hi);text-decoration:underline;text-underline-offset:3px}
+
+  /* success overlay state */
+  .sent .form-body{display:none}
+  .sent .form-done{display:flex}
+  .form-done{display:none;flex-direction:column;align-items:flex-start;gap:14px;padding:20px 0}
+  .form-done .tick{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#f2f2f4,#b9b9bf);color:#0a0a0b;font-size:22px}
+  .form-done h3{font-family:var(--display);font-weight:600;font-size:20px;text-transform:uppercase;letter-spacing:-.01em}
+  .form-done p{font-family:var(--body);font-size:13.5px;line-height:1.7;color:var(--grey);max-width:340px}
+  .form-done button{background:none;border:1px solid var(--line);border-radius:20px;color:var(--grey);
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;padding:9px 16px;cursor:none;transition:.3s}
+  .form-done button:hover{color:var(--silver-hi);border-color:rgba(255,255,255,.4)}
+
+  /* ============ footer ============ */
+  footer{padding:12vh 4vw 6vh;text-align:center;border-top:1px solid var(--line)}
+  footer .links{display:flex;justify-content:center;gap:34px;margin-bottom:5vh;flex-wrap:wrap}
+  footer .links a{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);transition:color .3s}
+  footer .links a:hover{color:var(--silver-hi)}
+  footer .fine{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--grey-dim);text-transform:uppercase}
+
+  @media(max-width:860px){
+    nav ul{gap:16px}
+    .contact{grid-template-columns:1fr;gap:8vh;padding:17vh 6vw 8vh}
+    .c-right{position:static}
+  }
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="cursor-ring"></div>
+<div class="cursor-dot"></div>
+
+<nav>
+  <div class="logo"><a href="index.html" data-cur="link">Mingjue Liu<sup style="font-size:.6em">®</sup></a></div>
+  <ul>
+    <li><a href="index.html" data-cur="link">Home</a></li>
+    <li><a href="work.html" data-cur="link">Work</a></li>
+    <li><a href="journey.html" data-cur="link">Journey</a></li>
+    <li><a href="contact.html" class="here" data-cur="link">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ================= CONTACT ================= -->
+<main class="contact">
+
+  <!-- left: intro + channels -->
+  <div class="c-left">
+    <h1 class="metal sheen">Let's<br>talk</h1>
+    <p class="intro">Open to <b>collaborations, freelance and full-time roles</b> across campaigns,
+       content and brand storytelling. Drop a note through the form, or reach me on any channel below.</p>
+
+    <p class="channels-label">Channels</p>
+    <div class="socials">
+      <a class="srow" href="https://www.instagram.com/ask.mjuee/" target="_blank" rel="noopener" data-cur="view">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        <span class="nm">Instagram</span><span class="hd">@ask.mjuee</span><span class="ar">↗</span>
+      </a>
+      <a class="srow" href="https://www.tiktok.com/@ask.mjuee" target="_blank" rel="noopener" data-cur="view">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 4v9.5a3.5 3.5 0 1 1-3-3.46"/><path d="M14 4c.4 2.2 1.9 3.7 4.3 4"/></svg>
+        <span class="nm">TikTok</span><span class="hd">@ask.mjuee</span><span class="ar">↗</span>
+      </a>
+      <a class="srow" href="https://www.youtube.com/@mjuee.96" target="_blank" rel="noopener" data-cur="view">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
+        <span class="nm">YouTube</span><span class="hd">@mjuee.96</span><span class="ar">↗</span>
+      </a>
+      <a class="srow" href="https://linkedin.com/in/mingjue-liu" target="_blank" rel="noopener" data-cur="view">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="7" y1="10" x2="7" y2="17"/><circle cx="7" cy="6.7" r="1.1" fill="currentColor" stroke="none"/><path d="M11 17v-4a2.5 2.5 0 0 1 5 0v4"/><line x1="11" y1="10.5" x2="11" y2="17"/></svg>
+        <span class="nm">LinkedIn</span><span class="hd">/in/mingjue-liu</span><span class="ar">↗</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- right: form -->
+  <div class="c-right" id="formCard">
+    <div class="form-body">
+      <h2>Send a message</h2>
+      <p class="sub">Tell me who you are and what you have in mind — I read every note.</p>
+
+      <form id="contactForm" novalidate>
+        <div class="field" id="f-name">
+          <label for="name">Name <span class="req">*</span></label>
+          <input type="text" id="name" name="name" placeholder="Your name" autocomplete="name">
+          <div class="msg">Please enter your name.</div>
+        </div>
+
+        <div class="field" id="f-email">
+          <label for="email">Email <span class="req">*</span></label>
+          <input type="email" id="email" name="email" placeholder="you@email.com" autocomplete="email">
+          <div class="msg">Please enter a valid email address.</div>
+        </div>
+
+        <div class="field" id="f-message">
+          <label for="message">Ideas &amp; comments <span class="req">*</span></label>
+          <textarea id="message" name="message" placeholder="Your idea, project, or comment…"></textarea>
+          <div class="msg">Please add a short message.</div>
+        </div>
+
+        <!-- honeypot: hidden from humans, catches bots -->
+        <div class="hp" aria-hidden="true">
+          <label>Leave this empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+        </div>
+
+        <button type="submit" class="submit" data-cur="link">Send message</button>
+        <div class="form-status" id="formStatus"></div>
+      </form>
+    </div>
+
+    <div class="form-done">
+      <div class="tick">✓</div>
+      <h3>Message sent</h3>
+      <p id="doneText">Thanks — your message has been sent. I'll get back to you soon.</p>
+      <button type="button" id="againBtn" data-cur="link">Send another</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="links">
+    <a href="index.html" data-cur="link">Home</a>
+    <a href="work.html" data-cur="link">Work</a>
+    <a href="journey.html" data-cur="link">Journey</a>
+  </div>
+  <p class="fine">© 2026 Mingjue Liu — personal portfolio</p>
+</footer>
+
+<script>
+(function(){
+  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  /* ---------- DOM cursor (liquid-cursor.js upgrades when WebGL available) ---------- */
+  if (fine){
+    const dot=document.querySelector('.cursor-dot'), ring=document.querySelector('.cursor-ring');
+    let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+    addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+    (function loop(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;
+      dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;
+      ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+      requestAnimationFrame(loop);})();
+    document.querySelectorAll('[data-cur]').forEach(el=>{
+      const m=el.dataset.cur==='view'?'cur-view':'cur-link';
+      el.addEventListener('mouseenter',()=>document.body.classList.add(m));
+      el.addEventListener('mouseleave',()=>document.body.classList.remove(m));
+    });
+  }
+
+  /* =========================================================================
+     CONTACT FORM  —  how to receive messages in your real inbox
+     -------------------------------------------------------------------------
+     RIGHT NOW (nothing configured): submitting opens the visitor's own email
+     app with the message pre-filled to you. It works, but the visitor has to
+     press send themselves — so some messages never arrive.
+
+     TO GET MESSAGES STRAIGHT INTO YOUR GMAIL (free, ~2 minutes):
+       1. Go to  https://web3forms.com
+       2. Type your email (mingjue.liu.23@gmail.com) and press "Create Access Key".
+       3. Check your inbox — they send you an access key (a long code).
+       4. Paste that code between the quotes on the WEB3FORMS_KEY line below.
+     That's it. No account, no password, no server. Free for 250 messages/month,
+     and every submission is emailed to you instantly.
+
+     (Alternative: https://formspree.io — same idea but needs a free account.
+      If you use Formspree instead, set ENDPOINT to your https://formspree.io/f/xxxx
+      URL and leave WEB3FORMS_KEY empty.)
+     ========================================================================= */
+  const WEB3FORMS_KEY = "";                        // <-- paste your Web3Forms access key here
+  const ENDPOINT      = "";                        // <-- or a Formspree URL instead
+  const CONTACT_EMAIL = "mingjue.liu.23@gmail.com";
+
+  const postURL = WEB3FORMS_KEY ? "https://api.web3forms.com/submit" : ENDPOINT;
+
+  const form = document.getElementById('contactForm');
+  const card = document.getElementById('formCard');
+  const statusEl = document.getElementById('formStatus');
+  const doneText = document.getElementById('doneText');
+  const fields = {
+    name: document.getElementById('f-name'),
+    email: document.getElementById('f-email'),
+    message: document.getElementById('f-message'),
+  };
+  const emailOk = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+  function setErr(key, on){ fields[key].classList.toggle('err', on); }
+  function clearErrs(){ Object.keys(fields).forEach(k=>setErr(k,false)); statusEl.className='form-status'; statusEl.textContent=''; }
+  function showStatus(msg, kind){ statusEl.innerHTML = msg; statusEl.className = 'form-status show ' + kind; }
+
+  form.addEventListener('input', e => { if (e.target.id) setErr(e.target.id, false); });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    clearErrs();
+
+    // bot? honeypot filled -> pretend success, do nothing
+    if (form.querySelector('[name="_gotcha"]').value){ card.classList.add('sent'); return; }
+
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const message = form.message.value.trim();
+
+    let bad = false;
+    if (!name){ setErr('name', true); bad = true; }
+    if (!emailOk(email)){ setErr('email', true); bad = true; }
+    if (!message){ setErr('message', true); bad = true; }
+    if (bad) return;
+
+    const btn = form.querySelector('.submit');
+
+    // ---- Path A: endpoint configured -> message lands in your inbox ----
+    if (postURL){
+      btn.disabled = true; btn.textContent = 'Sending…';
+      const data = new FormData(form);
+      if (WEB3FORMS_KEY) data.append('access_key', WEB3FORMS_KEY);
+      data.append('subject', 'Portfolio message from ' + name);
+      fetch(postURL, { method:'POST', headers:{'Accept':'application/json'}, body:data })
+        .then(r => {
+          if (r.ok){ doneText.textContent = 'Thanks, ' + name + ' — your message is in my inbox. I\'ll reply soon.'; card.classList.add('sent'); form.reset(); }
+          else throw new Error('bad response');
+        })
+        .catch(() => {
+          const link = mailtoLink(name, email, message);
+          showStatus('Something went wrong sending that. You can <a href="'+link+'">email me directly</a> instead.', 'bad');
+        })
+        .finally(() => { btn.disabled = false; btn.textContent = 'Send message'; });
+      return;
+    }
+
+    // ---- Path B: nothing configured -> open the visitor's email app pre-filled ----
+    window.location.href = mailtoLink(name, email, message);
+    doneText.textContent = 'Your email app should have opened with the message ready — just hit send. If it didn\'t, write me at ' + CONTACT_EMAIL + '.';
+    card.classList.add('sent');
+    form.reset();
+  });
+
+  function mailtoLink(name, email, message){
+    const subject = 'Portfolio message from ' + name;
+    const body = 'Name: ' + name + '\nEmail: ' + email + '\n\n' + message;
+    return 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  }
+
+  document.getElementById('againBtn').addEventListener('click', () => {
+    card.classList.remove('sent'); clearErrs();
+  });
+})();
+</script>
+<script src="analytics.js"></script>
+<script src="liquid-cursor.js"></script>
+</body>
+</html>

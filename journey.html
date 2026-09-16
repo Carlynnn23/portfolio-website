@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Journey — Mingjue Liu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap" rel="stylesheet">
+<style>
+  /* ============ tokens ============ */
+  :root{
+    --black:#0A0A0B;--black-2:#111113;--card:#131316;
+    --line:rgba(255,255,255,.12);--grey:#98989F;--grey-dim:#5B5B61;--silver-hi:#F4F4F6;
+    --chrome:linear-gradient(180deg,#B9BEC6 0%,#70747B 17%,#EDEFF3 44%,#FFFFFF 50%,#D7DBE1 56%,#575B63 80%,#A6ABB3 100%);
+    --display:"Clash Display","Helvetica Neue",Arial,sans-serif;
+    --body:"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC",Arial,sans-serif;
+    --mono:"Space Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--black);color:var(--silver-hi);font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:#3a3a40;color:#fff}
+  a{color:inherit;text-decoration:none}
+  @media (hover:hover) and (pointer:fine){ body,a,button{cursor:none} }
+
+  /* ============ chrome metallic type ============ */
+  .metal{
+    font-family:var(--display);font-weight:700;
+    background:var(--chrome);background-size:100% 240%;background-position:50% 12%;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,.55)) drop-shadow(0 1px 0 rgba(255,255,255,.25));
+  }
+  .sheen{animation:sheen 6.5s ease-in-out infinite}
+  @keyframes sheen{0%,100%{background-position:50% 10%}50%{background-position:50% 90%}}
+
+  /* ============ metallic cursor (DOM fallback; liquid-cursor.js upgrades it) ============ */
+  .cursor-dot,.cursor-ring{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%);will-change:transform}
+  .cursor-dot{width:7px;height:7px;background:radial-gradient(circle at 35% 30%,#fff 0%,#c9c9ce 45%,#77777d 100%);box-shadow:0 0 10px rgba(255,255,255,.35);transition:opacity .3s}
+  .cursor-ring{width:38px;height:38px;
+    background:conic-gradient(from var(--spin,0deg),#f5f5f7 0deg,#707076 70deg,#e3e3e6 140deg,#55555b 210deg,#fdfdfe 290deg,#f5f5f7 360deg);
+    -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 1.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 1.5px));
+    transition:width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1);animation:spinvar 3.2s linear infinite}
+  @property --spin{syntax:"<angle>";initial-value:0deg;inherits:false}
+  @keyframes spinvar{to{--spin:360deg}}
+  body.cur-link .cursor-ring{width:58px;height:58px}
+  body.cur-view .cursor-ring{width:58px;height:58px}
+  @media (hover:none),(pointer:coarse){ .cursor-dot,.cursor-ring{display:none} }
+
+  /* ============ nav ============ */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;
+    padding:18px 4vw;background:rgba(10,10,11,.7);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.07)}
+  nav .logo{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.12em}
+  nav .logo a{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.12em;text-transform:none;color:var(--silver-hi)}
+  nav .logo a::after{display:none}
+  nav ul{display:flex;gap:32px;list-style:none}
+  nav a{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);transition:color .3s;position:relative}
+  nav a:hover,nav a.here{color:var(--silver-hi)}
+  nav a::after{content:"";position:absolute;left:0;bottom:-5px;height:1px;width:100%;background:linear-gradient(90deg,#f0f0f2,#77777d);transform:scaleX(0);transform-origin:right;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+  nav a:hover::after,nav a.here::after{transform:scaleX(1);transform-origin:left}
+
+  /* ============ page head ============ */
+  .page-head{padding:26vh 4vw 8vh;text-align:center;background:radial-gradient(1000px 520px at 50% 0%,rgba(255,255,255,.05),transparent 62%)}
+  .page-head .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);margin-bottom:3vh}
+  .page-head h1{font-family:var(--display);font-weight:700;font-size:clamp(44px,8.5vw,130px);text-transform:uppercase;line-height:.9;letter-spacing:-.02em}
+  .page-head .lead{font-family:var(--body);margin:3.5vh auto 0;max-width:600px;font-size:clamp(14px,1.5vw,18px);line-height:1.7;color:var(--grey)}
+
+  /* ============ chapters ============ */
+  .chapters{padding:4vh 0 6vh}
+  .chapter{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:330px 1fr;gap:clamp(30px,5vw,90px);
+    padding:9vh 4vw;border-top:1px solid var(--line)}
+
+  .ch-head{position:sticky;top:100px;align-self:start}
+  .ch-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey-dim);margin-bottom:14px}
+  .ch-title{font-family:var(--display);font-weight:600;font-size:clamp(34px,4.6vw,60px);line-height:.98;letter-spacing:-.01em}
+  .ch-sub{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);margin-top:16px;line-height:1.7}
+
+  .ch-body{min-width:0}
+  .xp{display:grid;grid-template-columns:118px 1fr;gap:26px;padding:34px 0;border-top:1px solid var(--line);
+    opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+  .ch-body .xp:first-child{border-top:none;padding-top:6px}
+  .xp.inview{opacity:1;transform:none}
+  .xp-date{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--grey);padding-top:5px;white-space:nowrap}
+  .xp-main{min-width:0}
+  .xp-role{font-family:var(--display);font-weight:600;font-size:clamp(18px,2vw,25px);line-height:1.14;letter-spacing:-.01em;text-transform:uppercase}
+  .xp-org{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);margin-top:9px}
+  .xp-points{list-style:none;margin:16px 0 0;padding:0}
+  .xp-points li{position:relative;font-family:var(--body);font-size:13.5px;line-height:1.65;color:var(--grey);padding-left:18px;margin-top:9px}
+  .xp-points li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#88888e)}
+  .xp-link{display:inline-block;margin-top:16px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--silver-hi);
+    border-bottom:1px solid var(--line);padding-bottom:3px;transition:border-color .3s}
+  .xp-link:hover{border-color:rgba(255,255,255,.55)}
+
+  /* ============ footer ============ */
+  footer{padding:12vh 4vw 6vh;text-align:center;border-top:1px solid var(--line);background:radial-gradient(800px 400px at 50% 100%,rgba(255,255,255,.05),transparent 65%)}
+  footer .say{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey)}
+  footer h2{font-family:var(--display);font-weight:700;font-size:clamp(34px,6.5vw,96px);text-transform:uppercase;margin:2vh 0 5vh;line-height:.9;letter-spacing:-.02em}
+  footer .links{display:flex;justify-content:center;gap:34px;margin-bottom:6vh;flex-wrap:wrap}
+  footer .links a{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);transition:color .3s}
+  footer .links a:hover{color:var(--silver-hi)}
+  footer .fine{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--grey-dim);text-transform:uppercase}
+
+  @media(max-width:900px){
+    nav ul{gap:16px}
+    .chapter{grid-template-columns:1fr;gap:28px;padding:7vh 5vw}
+    .ch-head{position:static}
+    .xp{grid-template-columns:1fr;gap:6px;padding:26px 0}
+    .xp-date{padding-top:0}
+  }
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.xp{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="cursor-ring"></div>
+<div class="cursor-dot"></div>
+
+<nav>
+  <div class="logo"><a href="index.html" data-cur="link">Mingjue Liu<sup style="font-size:.6em">®</sup></a></div>
+  <ul>
+    <li><a href="index.html" data-cur="link">Home</a></li>
+    <li><a href="work.html" data-cur="link">Work</a></li>
+    <li><a href="journey.html" class="here" data-cur="link">Journey</a></li>
+    <li><a href="contact.html" data-cur="link">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ================= PAGE HEAD ================= -->
+<header class="page-head">
+  <h1 class="metal sheen">The Journey</h1>
+  <p class="lead">Three chapters, one craft — from New York City, to Shanghai, to Rotterdam.
+     The story continues…</p>
+</header>
+
+<!-- ================= CHAPTERS ================= -->
+<section class="chapters" id="journey">
+
+  <!-- ===== CHAPTER · NETHERLANDS ===== -->
+  <div class="chapter">
+    <div class="ch-head">
+      <p class="ch-kicker">2023 — Present · Rotterdam, NL</p>
+      <h2 class="ch-title metal">The Netherlands</h2>
+      <p class="ch-sub">MA Media &amp; Creative Industries<br>Erasmus University Rotterdam</p>
+    </div>
+    <div class="ch-body">
+
+      <article class="xp">
+        <div class="xp-date">Jul 2026 — Now</div>
+        <div class="xp-main">
+          <h3 class="xp-role">Social Media &amp; Storytelling Intern</h3>
+          <div class="xp-org">Olivscent · The Hague, NL</div>
+          <ul class="xp-points">
+            <li>Manage and create B2B content for LinkedIn and Instagram — building the content calendar in Claude Code and producing visual assets in Claude Design and Figma.</li>
+            <li>Draft platform-specific copy and coordinate founder-led workshop events.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="xp">
+        <div class="xp-date">Jul 2025 — Now</div>
+        <div class="xp-main">
+          <h3 class="xp-role">Independent Social Channel Manager</h3>
+          <div class="xp-org">YouTube · Instagram · TikTok</div>
+          <ul class="xp-points">
+            <li>Run a personal YouTube channel end-to-end: research, concept, filming, CapCut editing, and Canva thumbnails and visual identity.</li>
+            <li>Grow short-form TikTok and Instagram channels on AI tutorials and tech trends, owning trend analysis and channel growth.</li>
+            <li>A/B test thumbnails, titles, and captions against platform best practices to optimise search and discovery.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="xp">
+        <div class="xp-date">2024 — 2025</div>
+        <div class="xp-main">
+          <h3 class="xp-role">Master's Thesis — GenAI vs. Human Content</h3>
+          <div class="xp-org">Erasmus University · Mixed-Methods Research</div>
+          <ul class="xp-points">
+            <li>Designed a randomized mixed-methods study (n=85) comparing GPT-4o and human-written copy, measuring perceived quality on Likert-scale metrics.</li>
+            <li>Ran Shapiro-Wilk normality and Wilcoxon Signed-Rank tests in SPSS for non-parametric paired-sample analysis.</li>
+            <li>Combined descriptive statistics with qualitative thematic analysis to quantify performance gaps and recurring AI-writing patterns.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="xp">
+        <div class="xp-date">2025 — 2026</div>
+        <div class="xp-main">
+          <h3 class="xp-role">Data &amp; Analytics Projects</h3>
+          <div class="xp-org">SQL · Power BI · Python</div>
+          <ul class="xp-points">
+            <li>Built a full-stack e-commerce analytics solution (Olist) — a PostgreSQL data warehouse with CTEs and window functions, feeding multi-page Power BI dashboards (GMV, AOV, SLA, churn).</li>
+            <li>Analysed 30K Instagram posts in a three-layer PostgreSQL framework, surfacing best posting time, viral-format prediction, and exposure-to-follower funnels.</li>
+            <li>Turned news archives and YouTube comments into commercial media insights using SentiStrength, Gephi, and Context 2.0.</li>
+          </ul>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- ===== CHAPTER · SHANGHAI ===== -->
+  <div class="chapter">
+    <div class="ch-head">
+      <p class="ch-kicker">2018 — 2023 · Shanghai, CN</p>
+      <h2 class="ch-title metal">Shanghai, China</h2>
+      <p class="ch-sub">Marketing &amp; content across<br>fashion, streetwear &amp; retail</p>
+    </div>
+    <div class="ch-body">
+
+      <article class="xp">
+        <div class="xp-date">2021 — 2023</div>
+        <div class="xp-main">
+          <h3 class="xp-role">Marketing Content Specialist</h3>
+          <div class="xp-org">GOAT Group · Shanghai</div>
+          <ul class="xp-points">
+            <li>Local liaison for the PSG × GOAT campaign, coordinating U.S. content, design, and localization teams; local SEO drove 3K+ organic impressions within the first hour of launch.</li>
+            <li>Led a month-long 11.11 campaign across four platforms and the official website — 30K+ views, 4.8K engagements, and 2K+ new user acquisitions.</li>
+            <li>Owned agency and vendor relationships and budget across multichannel campaigns, from brief through on-set production to final delivery.</li>
+          </ul>
+          <a class="xp-link" href="work.html" data-cur="view">See the campaigns →</a>
+        </div>
+      </article>
+
+      <article class="xp">
+        <div class="xp-date">2019 — 2021</div>
+        <div class="xp-main">
+          <h3 class="xp-role">Digital Editor</h3>
+          <div class="xp-org">I.T Apparels Ltd. · Shanghai</div>
+          <ul class="xp-points">
+            <li>Mapped and optimised the journey from social touchpoints to product detail pages, diagnosing drop-off via CTR, cart abandonment, and purchase-rate analysis.</li>
+            <li>Implemented UTM tracking across social URLs for accurate attribution and reporting in Google Analytics.</li>
+            <li>Ran the seasonal Weibo and WeChat calendar with designers — a key partnership post drove 14 direct purchases within a week.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="xp">
+        <div class="xp-date">2018 — 2019</div>
+        <div class="xp-main">
+          <h3 class="xp-role">Marketing Assistant</h3>
+          <div class="xp-org">Prolivon · Shanghai</div>
+          <ul class="xp-points">
+            <li>Executed an online and offline sample-sale campaign, generating 375 new followers and 5,622 page views in five days.</li>
+            <li>Developed consumer insights and content strategy from platform metrics.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="xp">
+        <div class="xp-date">2018</div>
+        <div class="xp-main">
+          <h3 class="xp-role">Account Executive Intern</h3>
+          <div class="xp-org">We Are Social · Shanghai</div>
+          <ul class="xp-points">
+            <li>Managed daily social operations for luxury brand Chaumet, overseeing weekly publishing and audience engagement.</li>
+            <li>Produced weekly and monthly clipping reports for Beats by Dre, tracking campaign metrics and audience trends.</li>
+          </ul>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- ===== CHAPTER · UNITED STATES ===== -->
+  <div class="chapter">
+    <div class="ch-head">
+      <p class="ch-kicker">2014 — 2018 · New York City &amp; West Lafayette, US</p>
+      <h2 class="ch-title metal">United States</h2>
+      <p class="ch-sub">BSc Apparel Design &amp; Technology<br>Purdue University</p>
+      <p class="ch-sub">Associate Degree · Fashion Business Marketing<br>Fashion Institute of Technology<br>One-year exchange · 2016 — 2017</p>
+    </div>
+    <div class="ch-body">
+
+      <article class="xp">
+        <div class="xp-date">2017</div>
+        <div class="xp-main">
+          <h3 class="xp-role">Assistant Designer Intern</h3>
+          <div class="xp-org">MINAN NYC · New York City</div>
+          <ul class="xp-points">
+            <li>Researched sustainable fashion fabrics — price points and properties — translating findings into creative direction for seasonal collections.</li>
+            <li>Supported production workflows: fabric sourcing, factory coordination, and progress tracking across the design-to-product pipeline.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="xp">
+        <div class="xp-date">2016</div>
+        <div class="xp-main">
+          <h3 class="xp-role">Benchmark Intern</h3>
+          <div class="xp-org">Decathlon · Shanghai</div>
+          <ul class="xp-points">
+            <li>Synthesised swimwear trend reports from material, colour, and style data across Taobao and Tmall.</li>
+            <li>Built data-driven reports on the purchasing habits of women aged 16–25 and benchmarked competitor hero products for the design team.</li>
+          </ul>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer id="contact">
+  <p class="say">the next chapter could be yours —</p>
+  <h2><a class="metal sheen" href="mailto:mingjue.liu.23@gmail.com" data-cur="link">Let's talk</a></h2>
+  <div class="links">
+    <a href="index.html" data-cur="link">← Home</a>
+    <a href="work.html" data-cur="link">Work</a>
+    <a href="https://linkedin.com/in/mingjue-liu" data-cur="link">LinkedIn</a>
+    <a href="mailto:mingjue.liu.23@gmail.com" data-cur="link">Email</a>
+  </div>
+  <p class="fine">© 2026 Mingjue Liu — career history</p>
+</footer>
+
+<script>
+(function(){
+  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  /* ---------- DOM cursor (liquid-cursor.js upgrades when WebGL available) ---------- */
+  if (fine){
+    const dot=document.querySelector('.cursor-dot'), ring=document.querySelector('.cursor-ring');
+    let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+    addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+    (function loop(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;
+      dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;
+      ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+      requestAnimationFrame(loop);})();
+    document.querySelectorAll('[data-cur]').forEach(el=>{
+      const m=el.dataset.cur==='view'?'cur-view':'cur-link';
+      el.addEventListener('mouseenter',()=>document.body.classList.add(m));
+      el.addEventListener('mouseleave',()=>document.body.classList.remove(m));
+    });
+  }
+
+  /* ---------- reveal on scroll ---------- */
+  const io = new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('inview'); io.unobserve(e.target);} });
+  }, {threshold:0.15});
+  document.querySelectorAll('.xp').forEach(el=>io.observe(el));
+})();
+</script>
+<script src="analytics.js"></script>
+<script src="liquid-cursor.js"></script>
+</body>
+</html>

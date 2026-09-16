@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mingjue Liu — Marketing &amp; Creative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap" rel="stylesheet">
+<style>
+  /* ============ tokens ============ */
+  :root{
+    --black:#0A0A0B;--black-2:#111113;--card:#141418;
+    --line:rgba(255,255,255,.12);--grey:#9A9AA2;--grey-dim:#5B5B61;--silver-hi:#F4F4F6;
+    --chrome:linear-gradient(180deg,#B9BEC6 0%,#70747B 17%,#EDEFF3 44%,#FFFFFF 50%,#D7DBE1 56%,#575B63 80%,#A6ABB3 100%);
+    --display:"Clash Display","Helvetica Neue",Arial,sans-serif;
+    --body:"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC",Arial,sans-serif;
+    --mono:"Space Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--black);color:var(--silver-hi);font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:#3a3a40;color:#fff}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  @media (hover:hover) and (pointer:fine){ body,a,button{cursor:none} }
+
+  /* ============ chrome metallic type (BLACKZ-style) ============ */
+  .metal{
+    font-family:var(--display);font-weight:700;
+    background:var(--chrome);background-size:100% 240%;background-position:50% 12%;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,.55)) drop-shadow(0 1px 0 rgba(255,255,255,.25));
+  }
+  .sheen{animation:sheen 6.5s ease-in-out infinite}
+  @keyframes sheen{0%,100%{background-position:50% 10%}50%{background-position:50% 90%}}
+
+  /* ============ cursor: dot (default) · ring (hover) · liquid arrow (links, in JS) ============ */
+  .cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%);will-change:transform}
+  .cursor-dot{z-index:9999;width:10px;height:10px;
+    background:radial-gradient(circle at 36% 30%,#fff 0%,#C9C9CE 45%,#77777D 100%);
+    box-shadow:0 0 8px rgba(255,255,255,.3);transition:opacity .25s}
+  .cursor-ring{z-index:9998;width:46px;height:46px;opacity:0;
+    background:conic-gradient(from var(--spin,0deg),#f5f5f7 0deg,#707076 70deg,#e3e3e6 140deg,#55555b 210deg,#fdfdfe 290deg,#f5f5f7 360deg);
+    -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2px));
+            mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2px));
+    transition:opacity .25s;animation:spinvar 3.4s linear infinite}
+  @property --spin{syntax:"<angle>";initial-value:0deg;inherits:false}
+  @keyframes spinvar{to{--spin:360deg}}
+  body.cur-link .cursor-ring{opacity:1}
+  body.cur-view .cursor-dot{opacity:0}
+  body.cur-view .cursor-ring{opacity:0}
+  @media (hover:none),(pointer:coarse){ .cursor-dot,.cursor-ring{display:none} }
+
+  /* ============ nav ============ */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;
+    padding:20px 4vw;background:rgba(10,10,11,.6);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06)}
+  nav .logo{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.12em}
+  nav ul{display:flex;gap:30px;list-style:none}
+  nav a{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);transition:color .3s;position:relative}
+  nav a:hover{color:var(--silver-hi)}
+  nav a::after{content:"";position:absolute;left:0;bottom:-5px;height:1px;width:100%;background:linear-gradient(90deg,#f0f0f2,#77777d);transform:scaleX(0);transform-origin:right;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+  nav a:hover::after{transform:scaleX(1);transform-origin:left}
+
+  /* ============ hero (centered, single line) ============ */
+  .hero{min-height:82vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:15vh 4vw 7vh;position:relative;
+    background:radial-gradient(1200px 560px at 50% 30%,rgba(255,255,255,.06),transparent 60%),var(--black)}
+  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(42px,10.5vw,168px);line-height:.9;letter-spacing:-.02em;text-transform:uppercase;
+    white-space:nowrap;overflow:visible}
+  .hero h1 .ln{display:block;overflow:hidden}
+  .hero h1 .ln>span{display:block;transform:translateY(108%);animation:rise 1s .2s cubic-bezier(.2,.8,.2,1) forwards}
+  @keyframes rise{to{transform:translateY(0)}}
+  .hero .sub{margin-top:2.6vh;max-width:680px;font-size:clamp(14px,1.5vw,18px);line-height:1.7;color:var(--grey);
+    opacity:0;animation:fade 1s .7s ease forwards}
+  .hero .sub b{color:var(--silver-hi);font-weight:500}
+  @keyframes fade{to{opacity:1}}
+  .hero .scroll-hint{position:absolute;bottom:3.5vh;left:4vw;font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--grey-dim);display:flex;align-items:center;gap:10px}
+  .hero .scroll-hint::after{content:"";width:34px;height:1px;background:var(--grey-dim);animation:pulse 1.8s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scaleX(.4);opacity:.4}50%{transform:scaleX(1);opacity:1}}
+
+  /* name -> portrait reveal on hover */
+  .name-reveal{position:fixed;top:0;left:0;z-index:9500;pointer-events:none;width:clamp(160px,16vw,250px);aspect-ratio:3/4;
+    border-radius:4px;overflow:hidden;box-shadow:0 26px 70px rgba(0,0,0,.6);outline:1px solid rgba(255,255,255,.14);
+    opacity:0;transform:translate(-50%,-50%) scale(.82) rotate(-4deg);clip-path:inset(0 0 100% 0);
+    transition:opacity .5s cubic-bezier(.2,.8,.2,1),transform .6s cubic-bezier(.2,.8,.2,1),clip-path .6s cubic-bezier(.2,.8,.2,1);will-change:transform,clip-path,opacity}
+  .name-reveal img{width:100%;height:100%;object-fit:cover}
+  .name-reveal.on{opacity:1;clip-path:inset(0 0 0 0);transform:translate(-50%,-50%) scale(1) rotate(-2deg)}
+  .hero h1.hot .metal{opacity:.6;transition:opacity .4s}
+  @media (hover:none),(pointer:coarse){ .name-reveal{display:none} }
+
+  /* ============ marquee ============ */
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:16px 0;background:var(--black-2);white-space:nowrap}
+  .marquee .track{display:inline-block;animation:scrollx 34s linear infinite}
+  .marquee span{font-family:var(--mono);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--grey);margin:0 24px}
+  .marquee i{color:#54545a;margin:0 4px}
+  @keyframes scrollx{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ============ helix spiral (Framer-param geometry · scroll-driven) ============ */
+  .helix-wrap{position:relative;height:210vh}
+  .helix-stage{position:sticky;top:0;height:100vh;overflow:hidden;
+    perspective:1400px;perspective-origin:50% 50%;
+    background:radial-gradient(900px 700px at 50% 50%,rgba(255,255,255,.045),transparent 65%);
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 22%,#000 78%,transparent 100%);
+            mask-image:linear-gradient(to bottom,transparent 0,#000 22%,#000 78%,transparent 100%);
+    -webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+  .helix-core{position:absolute;top:50%;left:50%;width:0;height:0}
+  .hx{position:absolute;top:0;left:0;width:var(--iw,190px);height:var(--ih,250px);border-radius:14px;overflow:hidden;
+    background:rgba(18,18,26,.9);box-shadow:0 22px 60px rgba(0,0,0,.5);will-change:transform,opacity,filter}
+  .hx img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+  /* ============ selected work header ============ */
+  .work-head{display:flex;align-items:baseline;gap:20px;padding:16vh 4vw 6vh;flex-wrap:wrap}
+  .work-head h2{font-family:var(--display);font-weight:600;font-size:clamp(34px,5.5vw,74px);text-transform:uppercase;letter-spacing:-.01em}
+  .work-head .archive-link{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:#0a0a0b;background:linear-gradient(135deg,#f4f4f6,#c2c2c8 55%,#9a9aa0);background-size:180% 100%;background-position:0 0;
+    border:none;border-radius:26px;padding:15px 26px;box-shadow:0 10px 30px rgba(0,0,0,.45);
+    transition:background-position .5s,transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+  .work-head .archive-link:hover{background-position:100% 0;transform:translateY(-2px);box-shadow:0 16px 38px rgba(0,0,0,.6)}
+
+  /* ============ full-frame stacking sections ============ */
+  .stack{position:relative}
+  .fsection{position:sticky;top:0;min-height:100vh;display:flex;align-items:center;padding:11vh 5vw;overflow:hidden;
+    border-top:1px solid var(--line);transform-origin:top center;will-change:transform,filter}
+  .fsection .fs-inner{display:grid;grid-template-columns:2fr 3fr;gap:clamp(40px,6vw,120px);width:100%;max-width:1500px;margin:0 auto;align-items:center}
+  .bg-a{background:radial-gradient(1000px 700px at 78% 30%,rgba(120,140,170,.10),transparent 60%),#0c0c0e}
+  .bg-b{background:radial-gradient(1000px 700px at 22% 30%,rgba(170,140,120,.08),transparent 60%),#0a0a0c}
+  .bg-c{background:radial-gradient(1100px 700px at 80% 70%,rgba(140,150,170,.09),transparent 60%),#0d0d10}
+  .bg-d{background:radial-gradient(1000px 700px at 20% 60%,rgba(150,130,160,.08),transparent 60%),#0a0a0b}
+  .bg-e{background:radial-gradient(1100px 760px at 75% 35%,rgba(120,160,150,.08),transparent 60%),#0c0d0d}
+
+  .fs-text .idx{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--grey-dim)}
+  .fs-text h3{font-family:var(--display);font-weight:600;font-size:clamp(28px,3.6vw,52px);line-height:1.02;text-transform:uppercase;margin:14px 0 14px}
+  .fs-text .role{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--silver-hi);margin-bottom:20px}
+  .fs-text p{font-size:13.5px;line-height:1.8;color:var(--grey);max-width:440px}
+  .fs-text p+p{margin-top:16px}
+  .fs-text.compact p{font-size:12.5px;line-height:1.75}
+  .fs-text .tags{margin-top:24px;display:flex;gap:9px;flex-wrap:wrap}
+  .fs-text .tags span{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);border:1px solid var(--line);border-radius:20px;padding:6px 12px}
+
+  .cap{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);margin-top:10px}
+  figure{position:relative;overflow:hidden;border-radius:6px;background:#000}
+  figure img,figure video{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* creator phones — sized by viewport height so all three fit */
+  .creator-media{display:flex;flex-direction:column;align-items:center}
+  .creator-row{display:flex;gap:clamp(20px,2.4vw,42px);justify-content:center;align-items:flex-start}
+  .phone{position:relative;background:#0c0c0e;border:2px solid #2a2a30;box-shadow:0 30px 70px rgba(0,0,0,.6);overflow:hidden}
+  .phone video{width:100%;height:100%;object-fit:cover;display:block}
+  .phone.tall{height:clamp(250px,38vh,410px);aspect-ratio:9/19.5;border-radius:26px}
+  .phone.tall::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:30%;height:12px;background:#000;border-radius:0 0 11px 11px;z-index:2}
+  .phone.wide{height:clamp(148px,19vh,206px);aspect-ratio:2/1;border-radius:22px}
+  .phone.wide::before{content:"";position:absolute;left:7px;top:50%;transform:translateY(-50%);height:28%;width:11px;background:#000;border-radius:0 10px 10px 0;z-index:2}
+  .creator-cap{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--silver-hi);text-align:center}
+  .creator-cap a{color:inherit;transition:color .3s}
+  .creator-cap a:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}
+  .cap-top{margin:0 0 14px}
+  .cap-bottom{margin:clamp(22px,3vh,38px) 0 14px}
+
+  /* labelled 2x2 collab grid (section 02) */
+  .collab-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,2.4vw,40px) clamp(22px,2.8vw,54px);align-items:start}
+  .mcell{display:flex;flex-direction:column}
+  .mlabel{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--silver-hi);text-align:center;margin-bottom:14px}
+  .collab-grid figure{width:100%;border-radius:4px;background:#000}
+  .collab-grid img{width:100%;height:auto;display:block}
+
+  /* 3-phase promo grid (section 03) */
+  .promo-grid{display:flex;flex-direction:column;gap:12px}
+  .promo-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(12px,1.5vw,26px);align-items:start}
+  .row-lab{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey);margin:10px 0 2px}
+  .promo-grid figure{width:100%;border-radius:4px;background:#000;overflow:hidden;outline:1px solid rgba(255,255,255,.06)}
+  .promo-grid img{width:100%;height:auto;display:block}
+  .stack2{display:flex;flex-direction:column;gap:clamp(12px,1.4vw,18px)}
+
+  /* influencer marketing — two labelled groups (section 04) */
+  .infl-media{display:flex;flex-direction:column;gap:clamp(26px,4.5vh,52px)}
+  .grp-head{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--silver-hi);text-align:center;margin-bottom:16px}
+  .sublabel{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);text-align:center;margin-top:12px}
+  .infl-media .sublabel{margin:0 0 12px}
+  .infl-row{display:flex;gap:clamp(16px,2vw,36px);justify-content:center;align-items:flex-start}
+  .mcell2{display:flex;flex-direction:column;align-items:center}
+  .infl-media figure{border-radius:4px;overflow:hidden;background:#000;outline:1px solid rgba(255,255,255,.06)}
+  .infl-media img{display:block}
+  .g1 .infl-row{align-items:flex-start}
+  .g1 .cover figure{height:clamp(176px,25vh,236px);aspect-ratio:444/432}
+  .g1 .cover img{width:100%;height:100%;object-fit:contain}
+  .g1 .ytstack{display:flex;flex-direction:column;align-items:center;gap:clamp(8px,1.3vh,13px);height:clamp(176px,25vh,236px)}
+  .g1 .ytstack figure{flex:1;min-height:0;aspect-ratio:688/335;background:transparent;outline:none}
+  .g1 .ytstack img{width:100%;height:100%;object-fit:contain}
+  .g2 .infl-row{align-items:flex-end}
+  .g2 figure{height:clamp(200px,30vh,286px)} .g2 img{height:100%;width:auto}
+
+  /* creative editorial — flat 2-col grid so rows/labels align (section 05) */
+  .edit-media{display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(30px,4vw,80px);row-gap:0}
+  .edit-media .grp-head{margin-bottom:18px}
+  .etile{width:100%;height:clamp(240px,27vh,262px);display:flex;align-items:center;justify-content:center}
+  .etile img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:4px;box-shadow:0 16px 40px rgba(0,0,0,.5)}
+  .estack{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(6px,1.1vh,12px)}
+  .estack img{flex:none;width:220px;height:116px;max-width:100%;object-fit:contain;border-radius:4px;box-shadow:0 12px 30px rgba(0,0,0,.5)}
+  .edit-media .sublabel{margin:clamp(16px,2.2vh,26px) 0 10px}
+  .edit-media > .sublabel:nth-child(3),.edit-media > .sublabel:nth-child(4){margin-top:0}
+  .fs-text .sub-h{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--silver-hi);margin:16px 0 3px}
+  .fs-text .sub-h:first-of-type{margin-top:0}
+  .fs-text .sub-h + p{margin-top:0}
+
+  /* generic media grids */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .m-tall{aspect-ratio:3/4}.m-land{aspect-ratio:4/3}.m-sq{aspect-ratio:1/1}
+  .media-block .cap{margin-bottom:12px;margin-top:0}
+  .subcol .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey-dim);margin-bottom:8px}
+
+  /* ============ footer ============ */
+  footer{position:relative;z-index:1;padding:20vh 4vw 7vh;text-align:center;border-top:1px solid var(--line);background:radial-gradient(900px 460px at 50% 100%,rgba(255,255,255,.06),transparent 65%),var(--black)}
+  footer .say{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);margin-bottom:2vh}
+  footer h2{font-family:var(--display);font-weight:700;font-size:clamp(40px,8vw,116px);text-transform:uppercase;line-height:.9;letter-spacing:-.01em;margin-bottom:6vh}
+  footer .links{display:flex;justify-content:center;gap:30px;margin-bottom:7vh;flex-wrap:wrap}
+  footer .links a{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);transition:color .3s}
+  footer .links a:hover{color:var(--silver-hi)}
+  footer .fine{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--grey-dim);text-transform:uppercase}
+
+  /* ============ responsive / motion ============ */
+  @media(max-width:900px){
+    nav ul{gap:16px}
+    .fsection{padding:12vh 6vw}
+    .fsection .fs-inner{grid-template-columns:1fr;gap:32px}
+    .helix-wrap{height:185vh}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .hero h1 .ln>span{transform:none}.hero .sub{opacity:1}
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-ring"></div>
+<div class="cursor-dot"></div>
+<div class="name-reveal" aria-hidden="true"><img src="assets/mingjue-portrait.jpg" alt="Portrait of Mingjue Liu"></div>
+
+<nav>
+  <div class="logo">Mingjue Liu<sup style="font-size:.6em">®</sup></div>
+  <ul>
+    <li><a href="work.html" data-cur="view">Work</a></li>
+    <li><a href="journey.html" data-cur="view">Journey</a></li>
+    <li><a href="contact.html" data-cur="view">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <h1 id="heroName"><span class="ln"><span class="metal sheen">Mingjue Liu</span></span></h1>
+  <p class="sub">A marketing &amp; creative professional based in Rotterdam, the Netherlands.
+     Specialized in <b>Social Media Management &amp; Content Creation</b>, <b>Campaign Coordination</b> and <b>AI Strategy</b>.</p>
+</header>
+
+<!-- ================= MARQUEE ================= -->
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>GOAT Group</span><i>✦</i><span>Complex CN</span><i>✦</i><span>i-D China</span><i>✦</i><span>Xiaoguo Comedy</span><i>✦</i><span>I.T Apparels</span><i>✦</i><span>Olivscent</span><i>✦</i><span>We Are Social</span><i>✦</i><span>Decathlon</span><i>✦</i><span>Minan NYC</span><i>✦</i><span>Prolivon</span><i>✦</i>
+    <span>GOAT Group</span><i>✦</i><span>Complex CN</span><i>✦</i><span>i-D China</span><i>✦</i><span>Xiaoguo Comedy</span><i>✦</i><span>I.T Apparels</span><i>✦</i><span>Olivscent</span><i>✦</i><span>We Are Social</span><i>✦</i><span>Decathlon</span><i>✦</i><span>Minan NYC</span><i>✦</i><span>Prolivon</span><i>✦</i>
+  </div>
+</div>
+
+<!-- ================= HELIX (mixed gif + jpg) ================= -->
+<section class="helix-wrap" id="frames">
+  <div class="helix-stage" role="region" aria-label="Project gallery">
+    <div class="helix-core">
+      <div class="hx"><img src="assets/helix-styling.jpg" alt=""></div>
+      <div class="hx"><img src="assets/helix-cny2.gif" alt=""></div>
+      <div class="hx"><img src="assets/helix-1111.jpg" alt=""></div>
+      <div class="hx"><img src="assets/helix-eoy.gif" alt=""></div>
+      <div class="hx"><img src="assets/helix-editorial.jpg" alt=""></div>
+      <div class="hx"><img src="assets/helix-tt.jpg" alt=""></div>
+      <div class="hx"><img src="assets/helix-618.jpg" alt=""></div>
+      <div class="hx"><img src="assets/helix-cny1.gif" alt=""></div>
+      <div class="hx"><img src="assets/helix-guangzhi.jpg" alt=""></div>
+      <div class="hx"><img src="assets/helix-ytb.jpg" alt=""></div>
+      <div class="hx"><img src="assets/helix-supreme.jpg" alt=""></div>
+      <div class="hx"><img src="assets/helix-psg.jpg" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SELECTED WORK ================= -->
+<div class="work-head">
+  <h2>Selected Work</h2>
+  <a class="archive-link" href="work.html" data-cur="view">View full archive →</a>
+</div>
+
+<div class="stack">
+
+  <!-- 01 · CREATOR & CHANNEL MANAGER -->
+  <section class="fsection bg-a">
+    <div class="fs-inner">
+      <div class="fs-text compact">
+        <span class="idx">( 01 )</span>
+        <h3>Creator &amp; Channel Manager</h3>
+        <div class="role">Short-Form &amp; Long-Form Content Production</div>
+        <p>Script, film, and edit short-form GenAI tutorials for Instagram Reels and TikTok.</p>
+        <p>Run full-cycle YouTube production for K-pop culture content — thumbnail A/B testing,
+           retention pacing, and community engagement.</p>
+      </div>
+      <div class="fs-media creator-media">
+        <p class="creator-cap cap-top"><a href="https://www.tiktok.com/@ask.mjuee" target="_blank" rel="noopener" data-cur="view">TikTok</a> / <a href="https://www.instagram.com/ask.mjuee/" target="_blank" rel="noopener" data-cur="view">Instagram</a>: @ask.mjuee</p>
+        <div class="creator-row">
+          <figure class="phone tall"><video src="assets/video/ig.mp4" poster="assets/video/ig-poster.jpg" muted loop playsinline preload="none"></video></figure>
+          <figure class="phone tall"><video src="assets/video/tiktok.mp4" poster="assets/video/tiktok-poster.jpg" muted loop playsinline preload="none"></video></figure>
+        </div>
+        <p class="creator-cap cap-bottom"><a href="https://www.youtube.com/@mjuee.96" target="_blank" rel="noopener" data-cur="view">YouTube</a>: @mjuee.96</p>
+        <figure class="phone wide"><video src="assets/video/youtube.mp4" poster="assets/video/youtube-poster.jpg" muted loop playsinline preload="none"></video></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 · BRAND COLLABORATION -->
+  <section class="fsection bg-b">
+    <div class="fs-inner">
+      <div class="fs-text compact">
+        <span class="idx">( 02 )</span>
+        <h3>Brand Collaboration</h3>
+        <div class="role">GOAT Group × i-D China × Xiaoguo Comedy<br>'Someone And Me' Documentary Series</div>
+        <p>Lead brand liaison for GOAT Group on the 'Someone And Me' documentary — owning the
+           commercial partnership and talent brand placement.</p>
+        <p>Co-directed editorial shoots with i-D China and ran campaign operations across
+           agencies, media partners, and internal teams.</p>
+      </div>
+      <div class="fs-media collab-grid">
+        <div class="mcell"><p class="mlabel">Documentary</p><figure><img src="assets/p2-documentary.jpg" alt="Someone and Me documentary key visual"></figure></div>
+        <div class="mcell"><p class="mlabel">Brand Placement</p><figure><img src="assets/p2-brand.jpg" alt="GOAT brand placement in-series"></figure></div>
+        <div class="mcell"><p class="mlabel">Social Posts</p><figure><img src="assets/p2-social.jpg" alt="Weibo social post"></figure></div>
+        <div class="mcell"><p class="mlabel">Interview</p><figure><img src="assets/p2-interview.jpg" alt="GREATEST interview article"></figure></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · PROMOTIONAL CAMPAIGNS -->
+  <section class="fsection bg-c">
+    <div class="fs-inner">
+      <div class="fs-text compact">
+        <span class="idx">( 03 )</span>
+        <h3>Promotional<br>Campaigns<br><span style="color:var(--grey)">(11.11 &amp; 6.18)</span></h3>
+        <div class="role">Cross-platform social strategy &amp; project management</div>
+        <p>Managed three-stage roll-outs for China's biggest annual sales events across WeChat,
+           Weibo, RED, and TikTok.</p>
+        <p>Designed interactive engagement mechanics — top-purchaser rewards, social-sharing lucky
+           draws — to lift GMV and total orders.</p>
+      </div>
+      <div class="fs-media promo-grid">
+        <div class="promo-cols">
+          <span class="mlabel">Preheat</span>
+          <span class="mlabel">Promotion</span>
+          <span class="mlabel">Post-campaign</span>
+        </div>
+        <p class="row-lab">WeChat Articles</p>
+        <div class="promo-cols">
+          <figure><img src="assets/p3-preheat-wechat.jpg" alt="Preheat WeChat article"></figure>
+          <figure><img src="assets/p3-promotion-wechat.jpg" alt="Promotion WeChat article"></figure>
+          <figure><img src="assets/p3-post-wechat.jpg" alt="Post-campaign WeChat article"></figure>
+        </div>
+        <p class="row-lab">Weibo Posts</p>
+        <div class="promo-cols">
+          <figure><img src="assets/p3-preheat-weibo.jpg" alt="Preheat Weibo post"></figure>
+          <figure><img src="assets/p3-promotion-weibo.jpg" alt="Promotion Weibo post"></figure>
+          <div class="stack2">
+            <figure><img src="assets/p3-post-weibo1.jpg" alt="Post-campaign Weibo post"></figure>
+            <figure><img src="assets/p3-post-weibo2.jpg" alt="Post-campaign Weibo post"></figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · INFLUENCER MARKETING -->
+  <section class="fsection bg-d">
+    <div class="fs-inner">
+      <div class="fs-text compact">
+        <span class="idx">( 04 )</span>
+        <h3>Influencer<br>Marketing</h3>
+        <div class="role">Talent sourcing, coordination &amp; budget management</div>
+        <p>Owned influencer budget and end-to-end creator coordination — sourcing, briefing,
+           draft review, and final delivery.</p>
+        <p>Produced recurring global editorial, managing talent and photographer sourcing, budget
+           negotiation, and cross-team alignment with U.S. teams.</p>
+      </div>
+      <div class="fs-media infl-media">
+        <div class="infl-group g1">
+          <p class="grp-head">'Supreme BOGO T-Shirt' Exhibition</p>
+          <div class="infl-row">
+            <div class="mcell2 cover">
+              <p class="sublabel">Media Coverage (NOWRE)</p>
+              <figure><img src="assets/p4-media.jpg" alt="Media coverage — NOWRE"></figure>
+            </div>
+            <div class="mcell2">
+              <p class="sublabel">Influencers on bilibilii (YouTube)</p>
+              <div class="ytstack">
+                <figure><img src="assets/p4-yt-up.png" alt="Influencer on bilibili / YouTube"></figure>
+                <figure><img src="assets/p4-yt-down.png" alt="Influencer on bilibili / YouTube"></figure>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="infl-group g2">
+          <p class="grp-head">'City Guide' Global Franchise</p>
+          <div class="infl-row">
+            <div class="mcell2">
+              <p class="sublabel">Talent Interview</p>
+              <figure><img src="assets/p4-talent.jpg" alt="KENKIORI Guangzhou talent interview"></figure>
+            </div>
+            <figure><img src="assets/p4-intL.jpg" alt="City Guide editorial"></figure>
+            <figure><img src="assets/p4-intR.jpg" alt="City Guide editorial"></figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 · CREATIVE EDITORIAL -->
+  <section class="fsection bg-e">
+    <div class="fs-inner">
+      <div class="fs-text compact">
+        <span class="idx">( 05 )</span>
+        <h3>Creative<br>Editorial</h3>
+        <div class="role">Multi-channel copywriting &amp; storytelling</div>
+        <p class="sub-h">B2C Fashion Editorials</p>
+        <p>Authored trend-driven fashion editorials — designer profiles (Martine Rose), style
+           guides, and seasonal campaigns.</p>
+        <p class="sub-h">B2B Brand Storytelling</p>
+        <p>Produced B2B social content on LinkedIn and Instagram — brand story, social impact,
+           and sustainability.</p>
+      </div>
+      <div class="fs-media edit-media">
+        <p class="grp-head">Fashion &amp; Creative Editorials</p>
+        <p class="grp-head">Brand Storytelling</p>
+        <p class="sublabel">Chinese New Year Meme</p>
+        <p class="sublabel">Instagram Post</p>
+        <div class="etile"><img src="assets/p5-cny.jpg" alt="Chinese New Year meme collage"></div>
+        <div class="etile"><img src="assets/p5-ig.png" alt="Olivscent Instagram post"></div>
+        <p class="sublabel">Introducing Martine Rose</p>
+        <p class="sublabel">LinkedIn Post</p>
+        <div class="etile"><img src="assets/p5-martine.jpg" alt="Introducing Martine Rose editorial"></div>
+        <div class="etile"><div class="estack">
+          <img src="assets/p5-linkedin-up.png" alt="Olivscent LinkedIn post">
+          <img src="assets/p5-linkedin-down.png" alt="Olivscent LinkedIn post">
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer id="contact">
+  <p class="say">Have a project in mind?</p>
+  <h2><a class="metal sheen" href="contact.html" data-cur="view">Get in touch</a></h2>
+  <div class="links">
+    <a href="https://linkedin.com/in/mingjue-liu" data-cur="view">LinkedIn</a>
+    <a href="work.html" data-cur="view">Work</a>
+    <a href="journey.html" data-cur="view">Journey</a>
+    <a href="contact.html" data-cur="view">Contact</a>
+  </div>
+  <p class="fine">© 2026 Mingjue Liu — personal portfolio</p>
+</footer>
+
+<script>
+(function(){
+  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* dev cache-buster — bump AV whenever assets are re-exported so updates always show */
+  const AV='20260916a';
+  document.querySelectorAll('img[src^="assets/"]').forEach(i=>{i.src=i.getAttribute('src')+'?'+AV;});
+  document.querySelectorAll('video[src]').forEach(v=>{const s=v.getAttribute('src'),p=v.getAttribute('poster');v.setAttribute('src',s+'?'+AV);if(p)v.setAttribute('poster',p+'?'+AV);});
+
+  /* ---------- DOM cursor: dot + ring (liquid arrow added by liquid-cursor.js) ---------- */
+  if (fine){
+    const dot=document.querySelector('.cursor-dot'), ring=document.querySelector('.cursor-ring');
+    let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+    addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+    (function loop(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;
+      dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;
+      ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+      requestAnimationFrame(loop);})();
+    document.querySelectorAll('[data-cur]').forEach(el=>{
+      const m=el.dataset.cur==='view'?'cur-view':'cur-link';
+      el.addEventListener('mouseenter',()=>document.body.classList.add(m));
+      el.addEventListener('mouseleave',()=>document.body.classList.remove(m));
+    });
+    // ring (cur-link) on interactive, non-navigation elements
+    document.querySelectorAll('#heroName, .phone').forEach(el=>{
+      el.addEventListener('mouseenter',()=>document.body.classList.add('cur-link'));
+      el.addEventListener('mouseleave',()=>document.body.classList.remove('cur-link'));
+    });
+  }
+
+  /* ---------- name -> portrait reveal ---------- */
+  if (fine){
+    const name=document.getElementById('heroName'), reveal=document.querySelector('.name-reveal');
+    if(name&&reveal){
+      let rx=innerWidth/2,ry=innerHeight/2,tx=rx,ty=ry;
+      name.addEventListener('mouseenter',e=>{tx=e.clientX;ty=e.clientY;rx=tx;ry=ty;name.classList.add('hot');reveal.classList.add('on');});
+      name.addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;});
+      name.addEventListener('mouseleave',()=>{name.classList.remove('hot');reveal.classList.remove('on');});
+      (function rl(){rx+=(tx-rx)*.14;ry+=(ty-ry)*.14;const h=reveal.offsetHeight||300;
+        reveal.style.left=rx+'px';reveal.style.top=(ry-h/2-26)+'px';requestAnimationFrame(rl);})();
+    }
+  }
+
+  /* ---------- helix spiral (Framer-param geometry · scroll-driven + gentle idle) ---------- */
+  (function(){
+    const wrap=document.querySelector('.helix-wrap');
+    const stage=document.querySelector('.helix-stage');
+    if(!wrap||!stage) return;
+    const cards=[...stage.querySelectorAll('.hx')];
+    const N=Math.max(cards.length,1);
+    // parameters (Framer component defaults)
+    const ARC=360, FOCUS=1.2, FALLOFF=3, DBLUR=6, LOOPS=1.5, angleStep=ARC/N;
+    let RADIUS=240, VGAP=42;
+    function sizing(){
+      const S=Math.min(1.15,Math.max(.66,Math.min(innerWidth,innerHeight)/760));
+      RADIUS=240*S; VGAP=42*S;
+      stage.style.setProperty('--iw',(190*S).toFixed(1)+'px');
+      stage.style.setProperty('--ih',(250*S).toFixed(1)+'px');
+    }
+    sizing(); addEventListener('resize',sizing);
+
+    const mod=(v,n)=>((v%n)+n)%n;
+    const wrapd=(i,p)=>mod((i-p)+N/2,N)-N/2;
+
+    let scrollBase=0, idle=0, smoothed=0, raf=null;
+    function progress(){ const r=wrap.getBoundingClientRect(), total=r.height-innerHeight;
+      return total<=0?0:Math.min(1,Math.max(0,-r.top/total)); }
+    function onScroll(){ scrollBase=progress()*N*LOOPS; }
+    addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+    function render(p){
+      for(let i=0;i<N;i++){
+        const w=wrapd(i,p), ang=w*angleStep, rad=ang*Math.PI/180;
+        const x=Math.sin(rad)*RADIUS, z=Math.cos(rad)*RADIUS-RADIUS, y=w*VGAP;
+        const tilt=Math.max(-35,Math.min(35,-ang*0.55)), d=Math.abs(w);
+        const scale=Math.max(.35,FOCUS-(d*(FOCUS-.5))/FALLOFF);
+        const op=Math.max(.08,1-(d*.9)/FALLOFF);
+        const blur=Math.min(DBLUR,(d/FALLOFF)*DBLUR);
+        const el=cards[i];
+        el.style.transform=`translate(-50%,-50%) translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,${z.toFixed(2)}px) rotateY(${tilt.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+        el.style.opacity=op.toFixed(3);
+        el.style.filter=blur>0.05?`blur(${blur.toFixed(2)}px)`:'none';
+        el.style.zIndex=Math.round(1000-d*10);
+      }
+    }
+
+    function tick(){
+      if(!reduced) idle+=0.005;                 // gentle continuous auto-rotate
+      const target=scrollBase+idle;
+      smoothed+=(target-smoothed)*(reduced?1:0.08);
+      render(smoothed);
+      raf=requestAnimationFrame(tick);
+    }
+    function start(){ if(raf==null) raf=requestAnimationFrame(tick); }
+    function stop(){ if(raf!=null){ cancelAnimationFrame(raf); raf=null; } }
+
+    render(0);
+    const io=new IntersectionObserver(es=>es.forEach(e=>{ e.isIntersecting?start():stop(); }),{threshold:.05});
+    io.observe(stage);
+  })();
+
+  /* ---------- full-frame stacking: scale + dim the covered section ---------- */
+  const sections=[...document.querySelectorAll('.fsection')];
+  function stackFrame(){
+    for(let i=0;i<sections.length-1;i++){
+      const next=sections[i+1].getBoundingClientRect();
+      const cover=Math.min(1,Math.max(0,1-next.top/innerHeight));
+      sections[i].style.transform=`scale(${1-cover*0.07}) translateY(${cover*-24}px)`;
+      sections[i].style.filter=`brightness(${1-cover*0.5})`;
+    }
+    const last=sections[sections.length-1]; if(last){last.style.transform='';last.style.filter='';}
+    requestAnimationFrame(stackFrame);
+  }
+  if(!reduced) requestAnimationFrame(stackFrame);
+
+  /* ---------- videos: play only while visible; respect reduced-motion ---------- */
+  const vids=[...document.querySelectorAll('video')];
+  if(reduced){ vids.forEach(v=>{try{v.pause();}catch(e){}}); }
+  else{
+    const io=new IntersectionObserver(es=>es.forEach(e=>{
+      const v=e.target;
+      if(e.isIntersecting){ v.play().catch(()=>{}); } else { v.pause(); }
+    }),{threshold:0.08,rootMargin:'0px 0px 15% 0px'});
+    vids.forEach(v=>io.observe(v));
+  }
+})();
+</script>
+<script src="analytics.js"></script>
+<script src="liquid-cursor.js"></script>
+</body>
+</html>

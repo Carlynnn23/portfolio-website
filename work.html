@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work — Mingjue Liu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap" rel="stylesheet">
+<style>
+  /* ============ tokens ============ */
+  :root{
+    --black:#0A0A0B;--black-2:#111113;--card:#131316;
+    --line:rgba(255,255,255,.12);--grey:#98989F;--grey-dim:#5B5B61;--silver-hi:#F4F4F6;
+    --metal:linear-gradient(105deg,#E9E9EC 0%,#86868C 28%,#F7F7FA 50%,#6F6F75 72%,#D9D9DD 100%);
+    --chrome:linear-gradient(180deg,#B9BEC6 0%,#70747B 17%,#EDEFF3 44%,#FFFFFF 50%,#D7DBE1 56%,#575B63 80%,#A6ABB3 100%);
+    --display:"Clash Display","Helvetica Neue",Arial,sans-serif;
+    --body:"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC",Arial,sans-serif;
+    --mono:"Space Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--black);color:var(--silver-hi);font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:#3a3a40;color:#fff}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  @media (hover:hover) and (pointer:fine){ body,a,button{cursor:none} }
+
+  .metal{
+    font-family:var(--display);font-weight:700;
+    background:var(--chrome);background-size:100% 240%;background-position:50% 12%;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,.55)) drop-shadow(0 1px 0 rgba(255,255,255,.25));
+  }
+  .sheen{animation:sheen 6.5s ease-in-out infinite}
+  @keyframes sheen{0%,100%{background-position:50% 10%}50%{background-position:50% 90%}}
+
+  /* ============ metallic cursor (DOM fallback; liquid-cursor.js upgrades it) ============ */
+  .cursor-dot,.cursor-ring{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%);will-change:transform}
+  .cursor-dot{width:7px;height:7px;background:radial-gradient(circle at 35% 30%,#fff 0%,#c9c9ce 45%,#77777d 100%);box-shadow:0 0 10px rgba(255,255,255,.35);transition:opacity .3s}
+  .cursor-ring{width:38px;height:38px;
+    background:conic-gradient(from var(--spin,0deg),#f5f5f7 0deg,#707076 70deg,#e3e3e6 140deg,#55555b 210deg,#fdfdfe 290deg,#f5f5f7 360deg);
+    -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 1.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 1.5px));
+    transition:width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1);animation:spinvar 3.2s linear infinite}
+  @property --spin{syntax:"<angle>";initial-value:0deg;inherits:false}
+  @keyframes spinvar{to{--spin:360deg}}
+  body.cur-link .cursor-ring{width:58px;height:58px}
+  body.cur-view .cursor-ring{width:58px;height:58px}
+  @media (hover:none),(pointer:coarse){ .cursor-dot,.cursor-ring{display:none} }
+
+  /* ============ nav ============ */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;
+    padding:18px 4vw;background:rgba(10,10,11,.7);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.07)}
+  nav .logo{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.12em}
+  nav .logo a{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.12em;text-transform:none;color:var(--silver-hi)}
+  nav .logo a::after{display:none}
+  nav ul{display:flex;gap:32px;list-style:none}
+  nav a{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);transition:color .3s;position:relative}
+  nav a:hover,nav a.here{color:var(--silver-hi)}
+  nav a::after{content:"";position:absolute;left:0;bottom:-5px;height:1px;width:100%;background:linear-gradient(90deg,#f0f0f2,#77777d);transform:scaleX(0);transform-origin:right;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+  nav a:hover::after,nav a.here::after{transform:scaleX(1);transform-origin:left}
+
+  /* ============ page head ============ */
+  .page-head{padding:24vh 4vw 6vh;background:radial-gradient(1000px 520px at 50% 0%,rgba(255,255,255,.05),transparent 62%)}
+  .page-head .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);margin-bottom:3vh}
+  .page-head h1{font-family:var(--display);font-weight:700;font-size:clamp(44px,8.5vw,120px);text-transform:uppercase;line-height:.9;letter-spacing:-.02em}
+  .page-head .lead{font-family:var(--body);margin-top:3vh;max-width:680px;font-size:clamp(14px,1.5vw,18px);line-height:1.7;color:var(--grey)}
+
+  /* ============ filters ============ */
+  .filters{position:sticky;top:59px;z-index:80;padding:16px 4vw;
+    background:rgba(10,10,11,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .filters .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey-dim);margin-right:6px}
+  .chip{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);
+    border:1px solid var(--line);border-radius:20px;padding:8px 15px;transition:.28s;white-space:nowrap}
+  .chip:hover{color:var(--silver-hi);border-color:rgba(255,255,255,.35)}
+  .chip.active{color:#0a0a0b;background:linear-gradient(135deg,#f2f2f4,#c2c2c8);border-color:transparent;font-weight:600}
+  .chip .ct{opacity:.5;margin-left:6px;font-variant-numeric:tabular-nums}
+
+  /* ============ archive ============ */
+  .archive{padding:5vh 4vw 14vh}
+  .year-group{margin-bottom:8vh}
+  .year-head{display:flex;align-items:baseline;gap:16px;margin-bottom:4vh;border-bottom:1px solid var(--line);padding-bottom:14px}
+  .year-head .yr{font-family:var(--display);font-weight:600;font-size:clamp(30px,4vw,52px);line-height:1;letter-spacing:-.01em}
+  .year-head .yc{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(20px,2.4vw,38px)}
+
+  .pcard{position:relative;display:flex;flex-direction:column;
+    background:var(--card);border:1px solid transparent;border-radius:10px;overflow:hidden;
+    transition:opacity .45s cubic-bezier(.2,.8,.2,1),transform .45s cubic-bezier(.2,.8,.2,1),border-color .3s;
+    will-change:opacity,transform}
+  .pcard:hover{border-color:rgba(255,255,255,.28)}
+  .pcard.out{opacity:0;transform:translateY(14px) scale(.98)}
+  .pc-img{position:relative;aspect-ratio:16/11;overflow:hidden}
+  .pc-img::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.14) 50%,transparent 70%);background-size:250% 100%;background-position:120% 0;transition:background-position .9s cubic-bezier(.2,.8,.2,1)}
+  .pcard:hover .pc-img::after{background-position:-120% 0}
+  .pc-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.85) brightness(.9);transition:transform .8s cubic-bezier(.2,.8,.2,1),filter .8s}
+  .pcard:hover .pc-img img{transform:scale(1.06);filter:saturate(1) brightness(1)}
+  .pc-img .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(120% 120% at 30% 20%,#20202a,#0d0d10);color:var(--grey-dim);
+    font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+  .pc-ext{position:absolute;top:14px;right:14px;z-index:2;width:34px;height:34px;border-radius:50%;
+    background:rgba(10,10,11,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:14px;
+    opacity:0;transform:translateY(-6px);transition:.4s}
+  .pcard:hover .pc-ext{opacity:1;transform:none}
+
+  .pc-body{padding:clamp(20px,2vw,30px);display:flex;flex-direction:column;flex:1}
+  .pc-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+  .pc-top .yr{font-family:var(--mono);color:var(--grey);font-size:12px;letter-spacing:.1em}
+  .pc-top .cl{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey)}
+  .pc-body h3{font-family:var(--display);font-weight:600;font-size:clamp(19px,1.9vw,26px);line-height:1.12;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:12px}
+  .pc-body p{font-family:var(--body);font-size:13.5px;line-height:1.7;color:var(--grey);margin-bottom:18px;flex:1}
+  .pc-tags{display:flex;gap:8px;flex-wrap:wrap}
+  .pc-tags span{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);
+    border:1px solid var(--line);border-radius:20px;padding:5px 11px;transition:.3s}
+  .pcard:hover .pc-tags span{border-color:rgba(255,255,255,.3);color:var(--silver-hi)}
+
+  /* deep-link highlight from homepage */
+  .pcard:target{border-color:rgba(255,255,255,.6);animation:flashcard 1.8s ease}
+  @keyframes flashcard{0%,100%{box-shadow:0 0 0 rgba(255,255,255,0)}25%{box-shadow:0 0 46px rgba(255,255,255,.28)}}
+
+  .empty{padding:12vh 0;text-align:center;color:var(--grey);font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;display:none}
+
+  /* ============ footer ============ */
+  footer{padding:12vh 4vw 6vh;text-align:center;border-top:1px solid var(--line);background:radial-gradient(800px 400px at 50% 100%,rgba(255,255,255,.05),transparent 65%)}
+  footer .say{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey)}
+  footer h2{font-family:var(--display);font-weight:700;font-size:clamp(34px,6.5vw,96px);text-transform:uppercase;margin:2vh 0 5vh;line-height:.9;letter-spacing:-.02em}
+  footer .links{display:flex;justify-content:center;gap:34px;margin-bottom:6vh;flex-wrap:wrap}
+  footer .links a{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);transition:color .3s}
+  footer .links a:hover{color:var(--silver-hi)}
+  footer .fine{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--grey-dim);text-transform:uppercase}
+
+  @media(max-width:820px){
+    nav ul{gap:16px}
+    .grid{grid-template-columns:1fr;gap:22px}
+    .filters{top:56px}
+  }
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="cursor-ring"></div>
+<div class="cursor-dot"></div>
+
+<nav>
+  <div class="logo"><a href="index.html" data-cur="link">Mingjue Liu<sup style="font-size:.6em">®</sup></a></div>
+  <ul>
+    <li><a href="index.html" data-cur="link">Home</a></li>
+    <li><a href="work.html" class="here" data-cur="link">Work</a></li>
+    <li><a href="journey.html" data-cur="link">Journey</a></li>
+    <li><a href="contact.html" data-cur="link">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ================= PAGE HEAD ================= -->
+<header class="page-head">
+  <h1 class="metal sheen">Work</h1>
+  <p class="lead">Filter by discipline, or scroll the timeline.</p>
+</header>
+
+<!-- ================= FILTERS ================= -->
+<div class="filters" id="filters">
+  <span class="lbl">Filter</span>
+  <button class="chip active" data-filter="all">All</button>
+  <button class="chip" data-filter="campaign">Campaign</button>
+  <button class="chip" data-filter="content">Content Creation</button>
+  <button class="chip" data-filter="influencer">Influencer Marketing</button>
+  <button class="chip" data-filter="editorial">Editorial</button>
+  <button class="chip" data-filter="localization">Localization</button>
+  <button class="chip" data-filter="pm">Project Management</button>
+  <button class="chip" data-filter="agency">Agency Collaboration</button>
+  <button class="chip" data-filter="ai">AI</button>
+</div>
+
+<!-- ================= ARCHIVE ================= -->
+<section class="archive">
+
+  <!-- 2026 -->
+  <div class="year-group" data-year="2026">
+    <div class="year-head"><span class="yr metal">2026</span></div>
+    <div class="grid">
+      <a class="pcard" id="w-ai" href="https://www.instagram.com/ask.mjuee/" target="_blank" rel="noopener" data-cur="view" data-tags="content ai">
+        <div class="pc-img"><span class="pc-ext">↗</span><img loading="lazy" src="assets/cover-ai.jpg" alt="AI-driven content"></div>
+        <div class="pc-body">
+          <div class="pc-top"><span class="yr">2026</span><span class="cl">TikTok · Instagram</span></div>
+          <h3>AI-Driven Content</h3>
+          <p>Short-form tutorials on AI automation workflows, plus tips and tricks for applying
+             AI across creative disciplines.</p>
+          <div class="pc-tags"><span>Content Creation</span><span>AI</span><span>Social Media</span></div>
+        </div>
+      </a>
+      <a class="pcard" id="w-olivscent" href="https://www.linkedin.com/company/olivscent/posts/?feedView=all" target="_blank" rel="noopener" data-cur="view" data-tags="content ai">
+        <div class="pc-img"><span class="pc-ext">↗</span><img loading="lazy" src="assets/cover-olivscent.jpg" alt="Olivscent brand mockups"></div>
+        <div class="pc-body">
+          <div class="pc-top"><span class="yr">2026</span><span class="cl">B2B Brand</span></div>
+          <h3>Olivscent</h3>
+          <p>Managed the B2B social calendar across LinkedIn and Instagram, using GenAI tools
+             (Claude, Gemini, Figma) to generate content.</p>
+          <div class="pc-tags"><span>Editorial</span><span>AI</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 2025 -->
+  <div class="year-group" data-year="2025">
+    <div class="year-head"><span class="yr metal">2025</span></div>
+    <div class="grid">
+      <a class="pcard" id="w-youtube" href="https://www.youtube.com/@mjuee.96" target="_blank" rel="noopener" data-cur="view" data-tags="content">
+        <div class="pc-img"><span class="pc-ext">↗</span><img loading="lazy" src="assets/cover-youtube.jpg" alt="YouTube channel"></div>
+        <div class="pc-body">
+          <div class="pc-top"><span class="yr">2025</span><span class="cl">Content Creation</span></div>
+          <h3>Personal YouTube Channel</h3>
+          <p>Focused on K-pop reaction content. Ran full-cycle video production for the channel —
+             scriptwriting, filming, editing, and thumbnail design with A/B testing.</p>
+          <div class="pc-tags"><span>Content Creation</span><span>Social Media</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 2023 -->
+  <div class="year-group" data-year="2023">
+    <div class="year-head"><span class="yr metal">2023</span></div>
+    <div class="grid">
+      <a class="pcard" id="w-styling" href="https://complexchinese.com/sc/video/styling-on-me" target="_blank" rel="noopener" data-cur="view" data-tags="pm influencer">
+        <div class="pc-img"><span class="pc-ext">↗</span><img loading="lazy" src="assets/cover-styling.jpg" alt="Styling on Me"></div>
+        <div class="pc-body">
+          <div class="pc-top"><span class="yr">2023</span><span class="cl">Project Management · Influencer Marketing</span></div>
+          <h3>Styling on Me</h3>
+          <p>Supervised on-set production for the 'Styling on Me' series, coordinating celebrity
+             guests and the production team to keep brand presentation aligned with HQ standards.</p>
+          <div class="pc-tags"><span>Series</span><span>Social Media</span><span>Campaign</span></div>
+        </div>
+      </a>
+      <a class="pcard" id="w-cityguide" data-tags="content influencer">
+        <div class="pc-img"><img loading="lazy" src="assets/cover-cityguide.jpg" alt="Guangzhou city guide"></div>
+        <div class="pc-body">
+          <div class="pc-top"><span class="yr">2023</span><span class="cl">Content Creation · Influencer Marketing</span></div>
+          <h3>City Guide — Guangzhou</h3>
+          <p>Coordinated end-to-end content workflows across editorial, visual, and production teams —
+             briefing photographers, stylists, and talent while managing asset collection and approval
+             cycles. Also owned the project budget, negotiating supplier fees and finalising agreements
+             with the legal team.</p>
+          <div class="pc-tags"><span>Editorial</span><span>Content Creation</span></div>
+        </div>
+      </a>
+      <a class="pcard" id="w-rabbit" data-tags="editorial">
+        <div class="pc-img"><img loading="lazy" src="assets/cover-rabbit.jpg" alt="Year of the Rabbit promotional article"></div>
+        <div class="pc-body">
+          <div class="pc-top"><span class="yr">2023</span><span class="cl">Fashion Editorial</span></div>
+          <h3>Year of the Rabbit Editorial</h3>
+          <p>A creative promotional article built around the Year of the Rabbit — spotlighting
+             products with rabbit design motifs and turning the zodiac moment into a seasonal
+             shopping story.</p>
+          <div class="pc-tags"><span>Campaign</span><span>Editorial</span><span>Content Creation</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 2022 -->
+  <div class="year-group" data-year="2022">
+    <div class="year-head"><span class="yr metal">2022</span></div>
+    <div class="grid">
+      <a class="pcard" id="w-someone" href="https://www.youtube.com/playlist?list=PLGPDH2DdBNTCPXBGownPLvER8kCS4kG8Y" target="_blank" rel="noopener" data-cur="view" data-tags="pm agency">
+        <div class="pc-img"><span class="pc-ext">↗</span><img loading="lazy" src="assets/cover-someone.jpg" alt="Someone And Me docu series"></div>
+        <div class="pc-body">
+          <div class="pc-top"><span class="yr">2022</span><span class="cl">Project Management · Agency Collaboration</span></div>
+          <h3>'Someone And Me' Documentary Series</h3>
+          <p>On-set production and editorial as brand sponsor liaison for the documentary series —
+             directing talent and holding brand guidelines, 124K+ views per episode.</p>
+          <div class="pc-tags"><span>Series</span><span>Production</span><span>Social Media</span></div>
+        </div>
+      </a>
+      <a class="pcard" id="w-psg" data-tags="campaign localization">
+        <div class="pc-img"><img loading="lazy" src="assets/cover-psg.jpg" alt="PSG x GOAT localization"></div>
+        <div class="pc-body">
+          <div class="pc-top"><span class="yr">2022</span><span class="cl">Campaign · Localization</span></div>
+          <h3>PSG × GOAT Localization Campaign</h3>
+          <p>Liaison between the U.S. content team and local market execution — translating a global
+             partnership into China-ready assets, 3K+ organic views within the first hour.</p>
+          <div class="pc-tags"><span>Localization</span><span>Campaign</span></div>
+        </div>
+      </a>
+      <a class="pcard" id="w-cny" data-tags="campaign content">
+        <div class="pc-img"><img loading="lazy" src="assets/cover-cny.jpg" alt="CNY campaign"></div>
+        <div class="pc-body">
+          <div class="pc-top"><span class="yr">2022</span><span class="cl">Campaign · Content Creation</span></div>
+          <h3>CNY Campaign — Year of the Tiger</h3>
+          <p>Seasonal push built on shareable sticker packs and red-packet mechanics,
+             rolled out on-brand across every channel.</p>
+          <div class="pc-tags"><span>Campaign</span><span>Social Media</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 2021 -->
+  <div class="year-group" data-year="2021">
+    <div class="year-head"><span class="yr metal">2021</span></div>
+    <div class="grid">
+      <a class="pcard" id="w-1111" data-tags="campaign">
+        <div class="pc-img"><img loading="lazy" src="assets/cover-1111.jpg" alt="11.11 campaign"></div>
+        <div class="pc-body">
+          <div class="pc-top"><span class="yr">2021</span><span class="cl">Campaign</span></div>
+          <h3>11.11 Promotional Campaign</h3>
+          <p>Owned the full content calendar and creative brief for the month-long 11.11 push —
+             30K+ views and 4.8K engagements across four platforms.</p>
+          <div class="pc-tags"><span>Campaign</span><span>Social Media</span></div>
+        </div>
+      </a>
+      <a class="pcard" id="w-greatest" data-tags="campaign localization">
+        <div class="pc-img"><img loading="lazy" src="assets/cover-greatest.jpg" alt="GREATEST localization"></div>
+        <div class="pc-body">
+          <div class="pc-top"><span class="yr">2021</span><span class="cl">Campaign · Localization</span></div>
+          <h3>GREATEST Localization</h3>
+          <p>Localizing GOAT's global brand voice for the China market — adapting editorial and
+             campaign assets across social channels.</p>
+          <div class="pc-tags"><span>Localization</span><span>Editorial</span></div>
+        </div>
+      </a>
+      <a class="pcard" id="w-supreme" data-tags="influencer">
+        <div class="pc-img"><img loading="lazy" src="assets/cover-supreme.jpg" alt="Supreme collector exhibition"></div>
+        <div class="pc-body">
+          <div class="pc-top"><span class="yr">2021</span><span class="cl">Influencer Marketing</span></div>
+          <h3>Supreme BOGO T-shirt Exhibition</h3>
+          <p>Led influencer marketing for an offline Supreme BOGO T-shirt exhibition — interviewing
+             the collector, partnering with local media NOWRE on an editorial feature, and directing
+             creators across TikTok, RED, and Bilibili to produce promotional videos for the online
+             auction that followed.</p>
+          <div class="pc-tags"><span>Editorial</span><span>Production</span></div>
+        </div>
+      </a>
+      <a class="pcard" id="w-martine" data-tags="editorial">
+        <div class="pc-img"><img loading="lazy" src="assets/cover-martine.jpg" alt="Martine Rose editorial"></div>
+        <div class="pc-body">
+          <div class="pc-top"><span class="yr">2021</span><span class="cl">Fashion Editorial</span></div>
+          <h3>Introducing Martine Rose</h3>
+          <p>Researched and produced fashion editorial content in close collaboration with designers.</p>
+          <div class="pc-tags"><span>Editorial</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <p class="empty" id="empty">No projects in this discipline yet.</p>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer id="contact">
+  <p class="say">have a project in mind?</p>
+  <h2><a class="metal sheen" href="mailto:mingjue.liu.23@gmail.com" data-cur="link">Let's talk</a></h2>
+  <div class="links">
+    <a href="index.html" data-cur="link">← Home</a>
+    <a href="journey.html" data-cur="link">Career Journey</a>
+    <a href="https://linkedin.com/in/mingjue-liu" data-cur="link">LinkedIn</a>
+    <a href="mailto:mingjue.liu.23@gmail.com" data-cur="link">Email</a>
+  </div>
+  <p class="fine">© 2026 Mingjue Liu — work archive</p>
+</footer>
+
+<script>
+(function(){
+  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  /* dev cache-buster — bump AV whenever assets are re-exported so updates always show */
+  const AV='20260916c';
+  document.querySelectorAll('img[src^="assets/"]').forEach(i=>{i.src=i.getAttribute('src')+'?'+AV;});
+
+  /* ---------- DOM cursor (liquid-cursor.js upgrades when WebGL available) ---------- */
+  if (fine){
+    const dot=document.querySelector('.cursor-dot'), ring=document.querySelector('.cursor-ring');
+    let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+    addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+    (function loop(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;
+      dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;
+      ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+      requestAnimationFrame(loop);})();
+    const bind=()=>document.querySelectorAll('[data-cur]').forEach(el=>{
+      const m=el.dataset.cur==='view'?'cur-view':'cur-link';
+      el.addEventListener('mouseenter',()=>document.body.classList.add(m));
+      el.addEventListener('mouseleave',()=>document.body.classList.remove(m));
+    });
+    bind();
+  }
+
+  /* ---------- tag filtering ---------- */
+  const chips = [...document.querySelectorAll('.chip')];
+  const cards = [...document.querySelectorAll('.pcard')];
+  const groups = [...document.querySelectorAll('.year-group')];
+  const empty = document.getElementById('empty');
+
+  // show live counts on each chip
+  chips.forEach(chip=>{
+    const f = chip.dataset.filter;
+    if (f === 'all') return;
+    const n = cards.filter(c => c.dataset.tags.split(' ').includes(f)).length;
+    if (n){ const s=document.createElement('span'); s.className='ct'; s.textContent=n; chip.appendChild(s); }
+  });
+
+  const matches = (c,f)=> f === 'all' || c.dataset.tags.split(' ').includes(f);
+
+  function apply(filter){
+    let shown = 0;
+    cards.forEach(c=>{
+      if (matches(c,filter)){
+        shown++;
+        c.style.display='';
+        requestAnimationFrame(()=> c.classList.remove('out'));
+      } else {
+        c.classList.add('out');
+        setTimeout(()=>{ if (c.classList.contains('out')) c.style.display='none'; }, 420);
+      }
+    });
+    // a year group is shown iff it has at least one matching card (computed from the filter,
+    // not from mid-transition display state)
+    groups.forEach(g=>{
+      const any = [...g.querySelectorAll('.pcard')].some(c=>matches(c,filter));
+      g.style.display = any ? '' : 'none';
+    });
+    empty.style.display = shown ? 'none' : 'block';
+  }
+
+  chips.forEach(chip=>{
+    chip.addEventListener('click',()=>{
+      chips.forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      apply(chip.dataset.filter);
+      history.replaceState(null,'', chip.dataset.filter==='all' ? location.pathname : '?tag='+chip.dataset.filter);
+    });
+  });
+
+  // honor ?tag= on load (but a #hash deep-link from Home always wins -> stay on All)
+  const params = new URLSearchParams(location.search);
+  const tag = params.get('tag');
+  if (tag && !location.hash){
+    const chip = chips.find(c=>c.dataset.filter===tag);
+    if (chip){ chips.forEach(c=>c.classList.remove('active')); chip.classList.add('active'); apply(tag); }
+  }
+
+  // deep-link from homepage: make sure the target card is scrolled into view after layout
+  if (location.hash){
+    const el = document.querySelector(location.hash);
+    if (el) setTimeout(()=> el.scrollIntoView({block:'center'}), 60);
+  }
+})();
+</script>
+<script src="analytics.js"></script>
+<script src="liquid-cursor.js"></script>
+</body>
+</html>
