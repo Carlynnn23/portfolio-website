@@ -24,7 +24,7 @@
    doesn't pollute the numbers.
    =========================================================================== */
 
-var GA_ID = "";            // <-- paste your G-XXXXXXXXXX measurement ID here
+var GA_ID = "G-MQW45GRCR4";
 
 (function () {
   if (!GA_ID || GA_ID.indexOf("G-") !== 0) return;          // not configured yet
